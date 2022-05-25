@@ -35,4 +35,4 @@ https://medium.com/analytics-vidhya/difference-between-wsgi-and-asgi-807158ed1d4
 
 # Model Manager
 
-4 hr 35.00--------min
+4 hr 45.00--------min
