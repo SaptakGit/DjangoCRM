@@ -11,6 +11,7 @@ urlpatterns = [
     # path('', landing_page, name='landing-page'),  # Function based views url
     path('', LandingPageView.as_view(), name='landing-page'),  # Class based views url
     path('leads/', include('leads.urls', namespace="leads")),
+    path('agents/', include('agents.urls', namespace="agents")),
     path('login/', LoginView.as_view(), name="login"),
     path('signup/', SignupView.as_view(), name="signup"),
     path('logout/', LogoutView.as_view(), name="logout")

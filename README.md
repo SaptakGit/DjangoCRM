@@ -38,4 +38,6 @@ https://medium.com/analytics-vidhya/difference-between-wsgi-and-asgi-807158ed1d4
 
 # Model Manager
 
-4 hr 45.00--------min
+# Django Signals --> like of MySql triggers in Django
+
+5 hr 32.00--------min
