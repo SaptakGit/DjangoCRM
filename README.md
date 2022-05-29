@@ -9,6 +9,7 @@ Get the git Repo
 
 # COMMANDS: 
 python -m venv <name_of_virtualenv>
+
 call <name_of_virtualenv>\Scripts\activate.bat
 
 pip install django
