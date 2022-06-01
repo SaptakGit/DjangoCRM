@@ -10,8 +10,9 @@ big application'''
 
 
 class User(AbstractUser):
-    pass
-    '''We can modify this class in future according to our need'''
+    # We can modify this class in future according to our need
+    is_organizer = models.BooleanField(default=True)
+    is_agent = models.BooleanField(default=False)
 
 
 class UserProfile(models.Model):

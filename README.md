@@ -41,4 +41,4 @@ https://medium.com/analytics-vidhya/difference-between-wsgi-and-asgi-807158ed1d4
 
 # Django Signals --> like of MySql triggers in Django
 
-5 hr 32.00--------min
+5 hr 44.30--------min
