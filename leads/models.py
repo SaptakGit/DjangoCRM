@@ -34,6 +34,7 @@ class Lead(models.Model):
     age = models.IntegerField(default=0)
     organization = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey("Category", null=True, blank=True, on_delete=models.SET_NULL)
 
     # agent = models.ForeignKey(Agent, on_delete=models.CASCADE, SET_DEFAULT, default=0, SET_NULL, null=True)
     '''IF the Agent class is defined before the Lead class we did not have to declare the Agent class in the foreignKey
@@ -58,6 +59,14 @@ class Agent(models.Model):
     # last_name = models.CharField(max_length=100)
     def __str__(self):
         return self.user.username
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=30)  # Types-> New, Contacted, Converted, Unconverted
+    organization = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
 
 
 def post_user_created_signal(sender, instance, created, **kwargs):

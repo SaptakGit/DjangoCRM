@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views import generic
-from .models import Lead, Agent
+from .models import Lead, Agent, Category
 from .forms import LeadForm, LeadModelForm, CustomUserCreationForm, AssignAgentForm
 from agents.mixins import OrganizerAndLoginRequiredMixin
 
@@ -43,20 +43,30 @@ class LeadListView(LoginRequiredMixin, generic.ListView):
         queryset = Lead.objects.all()
         # Initial queryset for the entire organization
         if user.is_organizer:
-            queryset = queryset.filter(organization=user.userprofile, agent__isnull=False)
+            queryset = queryset.filter(
+                organization=user.userprofile, agent__isnull=False
+            )
         else:
-            queryset = queryset.filter(organization=user.agent.organization, agent__isnull=False)
+            queryset = queryset.filter(
+                organization=user.agent.organization, agent__isnull=False
+            )
             # filter for the agent that is logged in
-            queryset = queryset.filter(agent__user=self.request.user)
+            queryset = queryset.filter(
+                agent__user=self.request.user
+            )
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super(LeadListView, self).get_context_data(**kwargs)
         user = self.request.user
-        queryset = Lead.objects.all()
+        # queryset = Lead.objects.all()
         if user.is_organizer:
-            queryset = queryset.filter(organization=user.userprofile, agent__isnull=True)
-            context.update({"unassigned_leads": queryset})
+            queryset = Lead.objects.filter(
+                organization=user.userprofile, agent__isnull=True
+            )
+            context.update({
+                "unassigned_leads": queryset
+            })
         return context
 
 
@@ -195,6 +205,40 @@ class AssignAgentView(OrganizerAndLoginRequiredMixin, generic.FormView):
         lead.save()
         return super(AssignAgentView, self).form_valid(form)
 
+
+class CategoryListView(LoginRequiredMixin, generic.ListView):
+    template_name = 'leads/category_list.html'
+    context_object_name = "category_list"
+
+    def context_object_data(self, **kwargs):
+        context = super(CategoryListView, self).get_context_data(**kwargs)
+        user = self.request.user
+        if user.is_organizer:
+            queryset = Lead.objects.filter(
+                organization=user.userprofile
+            )
+        else:
+            queryset = Lead.objects.filter(
+                organization=user.agent.organization
+            )
+        context.update({
+            "unassigned_lead_count": queryset.filter(category__isnull=True).count()
+        })
+        return context
+
+    def get_queryset(self):
+        user = self.request.user
+        # queryset = Category.objects.all()
+        # Initial queryset for the entire organization
+        if user.is_organizer:
+            queryset = Category.objects.filter(
+                organization=user.userprofile
+            )
+        else:
+            queryset = Category.objects.filter(
+                organization=user.agent.organization
+            )
+        return queryset
 
 # def lead_create(request):
 #     form = LeadForm()
