@@ -34,7 +34,7 @@ class Lead(models.Model):
     age = models.IntegerField(default=0)
     organization = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     agent = models.ForeignKey("Agent", null=True, blank=True, on_delete=models.SET_NULL)
-    category = models.ForeignKey("Category", null=True, blank=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey("Category", related_name="leads", null=True, blank=True, on_delete=models.SET_NULL)
 
     # agent = models.ForeignKey(Agent, on_delete=models.CASCADE, SET_DEFAULT, default=0, SET_NULL, null=True)
     '''IF the Agent class is defined before the Lead class we did not have to declare the Agent class in the foreignKey
